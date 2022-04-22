@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.logout_dialog.view.*
 class ProfileFragment : Fragment() {
     lateinit var home: SharedPreferences
     lateinit var viewModel: ViewModelUser
+    lateinit var username: String
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreateView(
@@ -41,17 +42,15 @@ class ProfileFragment : Fragment() {
         view.btnupdate.setOnClickListener {
 
             val id = home.getString("id", "").toString()
-            val username= view.update1.text.toString()
+            username = view.update1.text.toString()
             val cn = view.update2.text.toString()
             val dateofbirth = view.update3.text.toString()
             val address = view.update4.text.toString()
             val sf = home.edit()
             sf.putString("username", username)
-            sf.putString("birth", dateofbirth)
-            sf.putString("address", address)
-            sf.putString("namalengkap", cn)
             sf.apply()
             updateDataUser(id!!.toInt(),username, cn, dateofbirth, address)
+
             view.findNavController().navigate(R.id.action_profileFragment_to_homeFragment)
 
         }
@@ -92,6 +91,12 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "Gagal Update Data", Toast.LENGTH_LONG ).show()
             }else{
                 Toast.makeText(requireContext(), "Berhasil Update Data", Toast.LENGTH_LONG ).show()
+                val sf = home.edit()
+
+                sf.putString("birth", dateofbirth)
+                sf.putString("address", address)
+                sf.putString("namalengkap", completeName)
+                sf.apply()
             }
 
         })

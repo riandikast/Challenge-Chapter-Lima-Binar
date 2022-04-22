@@ -3,9 +3,11 @@ package com.binar.challengechapterlima.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.binar.challengechapterlima.model.GetAllUserItem
+import com.binar.challengechapterlima.model.ResponseRegister
 
 import com.binar.challengechapterlima.network.ApiClient
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class ViewModelUser : ViewModel(){
@@ -40,6 +42,7 @@ class ViewModelUser : ViewModel(){
                 }
             })
     }
+
     fun updateDataUser(id : Int, username : String, completeName :String, dateofbirth : String, address : String){
         ApiClient.instance.updateUser(id, username, completeName, dateofbirth, address)
             .enqueue(object : retrofit2.Callback<List<GetAllUserItem>> {

@@ -33,6 +33,7 @@ class LoginFragment : Fragment() {
     lateinit var viewModel : ViewModelUser
     lateinit var email: String
     lateinit var password: String
+    lateinit var toast : String
 
 
     override fun onCreateView(
@@ -56,23 +57,31 @@ class LoginFragment : Fragment() {
             if (loginemail.text.isNotEmpty() && loginpassword.text.isNotEmpty()){
                 email = loginemail.text.toString()
                 password = loginpassword.text.toString()
-
                 check(dataUser)
-
             }
             else{
-                val text = "Harap isi semua data"
-                val toast = Toast.makeText(requireActivity()?.getApplicationContext(), text, Toast.LENGTH_LONG)
-                val text1 = toast.getView()?.findViewById(android.R.id.message) as TextView
-                val toastView: View? = toast.getView()
-                toastView?.setBackgroundColor(Color.TRANSPARENT)
-                text1.setTextColor(Color.RED);
-                text1.setTextSize(15F)
-                toast.show()
-                toast.setGravity(Gravity.CENTER or Gravity.TOP, 0, 960)
+                toast = "Harap Isi Semua Data"
+                customToast()
             }
         }
         return view
+    }
+
+    fun customToast(){
+        val text = toast
+        val toast = Toast.makeText(
+            requireActivity()?.getApplicationContext(),
+            text,
+            Toast.LENGTH_LONG
+        )
+        val text1 =
+            toast.getView()?.findViewById(android.R.id.message) as TextView
+        val toastView: View? = toast.getView()
+        toastView?.setBackgroundColor(Color.TRANSPARENT)
+        text1.setTextColor(Color.RED);
+        text1.setTextSize(15F)
+        toast.show()
+        toast.setGravity(Gravity.CENTER or Gravity.TOP, 0, 960)
     }
     fun getDataUserItem(){
         viewModel = ViewModelProvider(this).get(ViewModelUser::class.java)
@@ -87,10 +96,8 @@ class LoginFragment : Fragment() {
     fun check(dataUser : List<GetAllUserItem>) {
         login(email, password)
         for (i in dataUser.indices) {
-
             if (email == dataUser[i].email && password == dataUser[i].password) {
                 val loginstate = "true"
-
                 val sf = send.edit()
                 sf.putString("id", dataUser[i].id)
                 sf.putString("email", dataUser[i].email)
@@ -102,9 +109,7 @@ class LoginFragment : Fragment() {
                 sf.apply()
                 view?.findNavController()
                     ?.navigate(R.id.action_loginFragment_to_homeFragment)
-
             }
-
         }
     }
 
@@ -115,20 +120,8 @@ class LoginFragment : Fragment() {
 
                     Toast.makeText(requireContext(), "Login Sukses", Toast.LENGTH_SHORT).show()
                 }else{
-                    val text = "Email atau password salah!"
-                    val toast = Toast.makeText(
-                        requireActivity()?.getApplicationContext(),
-                        text,
-                        Toast.LENGTH_LONG
-                    )
-                    val text1 =
-                        toast.getView()?.findViewById(android.R.id.message) as TextView
-                    val toastView: View? = toast.getView()
-                    toastView?.setBackgroundColor(Color.TRANSPARENT)
-                    text1.setTextColor(Color.RED);
-                    text1.setTextSize(15F)
-                    toast.show()
-                    toast.setGravity(Gravity.CENTER or Gravity.TOP, 0, 960)
+                    toast = "Email atau password salah!"
+                    customToast()
                 }
             }
             override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {

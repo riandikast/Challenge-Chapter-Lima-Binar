@@ -11,6 +11,7 @@ interface ApiService {
     @GET("apiuser.php")
     fun getAllUser(): Call<List<GetAllUserItem>>
 
+
     @POST("updateuser.php")
     @FormUrlEncoded
     fun updateUser(
@@ -37,4 +38,6 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): Call<ResponseLogin>
+
+
 }
