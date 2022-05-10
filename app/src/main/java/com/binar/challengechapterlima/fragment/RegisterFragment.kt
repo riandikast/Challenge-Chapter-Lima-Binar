@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
                     for (i in dataUser.indices) {
                         if (regisemailtext == dataUser[i].email) {
                             register = "false"
-
+                            break
                         } else {
                             register = "true"
                         }
